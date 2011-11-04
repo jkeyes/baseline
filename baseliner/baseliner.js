@@ -2,7 +2,7 @@
  * A function to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 0.9.2
+ * @version 0.9.3
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
@@ -222,9 +222,21 @@
 
 /*** End PNGlib ***/
 
-/**
- * Baseliner.
- */
+/* From: http://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically/4139190#4139190 */
+Object.defineProperty(Object.prototype, "extend", {
+    enumerable: false,
+    value: function(from) {
+        var props = Object.getOwnPropertyNames(from);
+        var dest = this;
+        props.forEach(function(name) {
+            if (name in dest) {
+                var destination = Object.getOwnPropertyDescriptor(from, name);
+                Object.defineProperty(dest, name, destination);
+            }
+        });
+        return this;
+    }
+});
 
 /* From: http://www.javascripter.net/faq/browserw.htm */
 var windowDimensions = function() {
@@ -256,11 +268,29 @@ function getDimenson(elem, name) {
 			);
 }
 
-var Baseliner = function(grid_height) {
+/**
+ * Baseliner.
+ */
+
+var Baseliner = function(options) {
+  var defaults = {
+    'gridColor': [255, 0, 0, 64],
+    'gridHeight': 10
+  }
+  if (options == null) {
+    options = {};
+  } else {
+    var optint = parseInt(options);
+    if (optint != 0 && !isNaN(optint) ) {
+      options = { 'gridHeight': optint };
+    }
+  }
+  this.opts = defaults.extend(options);
+  
   var baseliner = this;
   this.overlay_id = 'baseline-overlay'
   this.overlay = null;
-  this.grid_height = grid_height ? grid_height : 10;
+  this.gridHeight = this.opts.gridHeight;
   this.showText = document.createTextNode("Show Baseline");
   this.hideText = document.createTextNode("Hide Baseline");
 
@@ -275,9 +305,9 @@ var Baseliner = function(grid_height) {
   }
   this.create = function() {
     if (!this.overlay) {
-      overlay = new PNGlib(1, this.grid_height, 256);
+      overlay = new PNGlib(1, this.gridHeight, 256);
       overlay.color(0, 0, 0, 0);
-      overlay.buffer[overlay.index(0, this.grid_height - 1)] = overlay.color(0xff, 0, 0, 64);
+      overlay.buffer[overlay.index(0, this.gridHeight - 1)] = overlay.color.apply(overlay, this.opts.gridColor);
       base64_overlay ='data:image/png;base64,' + overlay.getBase64();
       this.overlay = document.createElement('div');
       this.overlay.id = this.overlay_id;
@@ -309,7 +339,7 @@ var Baseliner = function(grid_height) {
   this.refresh = function(value) {
     var value = parseInt(value);
     if (value == 0 || isNaN(value)) {
-      this.value = baseliner.grid_height;
+      this.value = baseliner.gridHeight;
       baseliner.grid_size.style.backgroundColor = "red";
       baseliner.grid_size.style.color = "white";
       return;
@@ -320,11 +350,23 @@ var Baseliner = function(grid_height) {
       document.body.removeChild(baseliner.overlay);
       baseliner.overlay = null;
     }
-    baseliner.grid_height = value;
+    baseliner.gridHeight = value;
     baseliner.toggle(true);
   }
 
   init = function() {
+    switch(baseliner.opts.gridColor) {
+      case 'green':
+        baseliner.opts.gridColor = [0, 0xFF, 0, 255]; break;
+      case 'blue':
+        baseliner.opts.gridColor = [0, 0, 0xFF, 255]; break;
+      case 'red':
+        baseliner.opts.gridColor = [0xFF, 0, 0, 255]; break;
+      case 'grey':
+      case 'gray':
+        baseliner.opts.gridColor = [0, 0, 0, 64]; break;
+    }
+
     var overlay_it = document.createElement('a');
     overlay_it.setAttribute('href', '');
     overlay_it.style.color = '#EEE';
@@ -344,7 +386,7 @@ var Baseliner = function(grid_height) {
     
     var grid_size = document.createElement('input');
     grid_size.setAttribute('size', '3');
-    grid_size.setAttribute('value', '' + baseliner.grid_height);
+    grid_size.setAttribute('value', '' + baseliner.gridHeight);
     grid_size.setAttribute('type', 'number');
     grid_size.style.textAlign = 'center';
     grid_size.style.border = '1px solid #CCC inset';

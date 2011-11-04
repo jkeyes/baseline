@@ -1,5 +1,9 @@
 # CHANGES
 
+## 0.9.3 — 2011-11-04
+
+* Added gridColor and gridHeight configuration options
+
 ## 0.9.2 — 2011-11-04
 
 * Check the grid size is an integer
