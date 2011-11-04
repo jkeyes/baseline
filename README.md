@@ -21,9 +21,9 @@ You can customize the size of the grid too:
 
 ![16px Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_16px.png)
 
-## Initialisation Options
+## Configuration Options
 
-Two initialisation options are supported:
+Two configuration options are supported:
 
 * `gridColor` — an RBGA array (`[255, 0, 0, 255]` for red) or a color string (`red`, `blue`, `green` or `grey`/`gray`). If this option is not set, it defaults to a highly transparent red.
 * `gridHeight` — the height of the baseline grid. If it is not set, it defaults to 10 pixels.
