@@ -7,7 +7,7 @@
     }
     </script>
 
-This will add the Baseliner widget to your page:
+This will add the [Baseliner](https://github.com/jkeyes/baseline/blob/master/baseliner/baseliner.js) widget to your page:
 
 ![Show Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_show.png)
 
