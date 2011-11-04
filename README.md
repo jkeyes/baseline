@@ -7,6 +7,9 @@
     }
     </script>
 
+<style>
+img { border: 2px solid #DDD; }
+</style>
 This will add the Baseliner widget to your page:
 
 ![Show Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_show.png)
@@ -14,3 +17,7 @@ This will add the Baseliner widget to your page:
 If you click on Show Baseline an 8px baseline grid overlay is displayed:
 
 ![Hide Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_hide.png)
+
+You can customize the size of the grid too:
+
+![16px Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_16px.png)
