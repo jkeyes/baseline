@@ -2,7 +2,7 @@
  * A function to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 0.9
+ * @version 0.9.2
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
@@ -306,18 +306,32 @@ var Baseliner = function(grid_height) {
       this.overlay.style.display = 'none';
     }
   }
-  window.onresize = function() {
-    baseliner.resize();
-  };
-  
-  if (!this.overlay_it) {
-    this.overlay_it = document.createElement('a');
-    this.overlay_it.setAttribute('href', '');
-    this.overlay_it.style.color = '#EEE';
-    this.overlay_it.style.marginRight = '12px';
-    this.overlay_it.appendChild(this.showText);
+  this.refresh = function(value) {
+    var value = parseInt(value);
+    if (value == 0 || isNaN(value)) {
+      this.value = baseliner.grid_height;
+      baseliner.grid_size.style.backgroundColor = "red";
+      baseliner.grid_size.style.color = "white";
+      return;
+    }
+    baseliner.grid_size.style.backgroundColor = "white";
+    baseliner.grid_size.style.color = "black";
+    if (baseliner.overlay) {
+      document.body.removeChild(baseliner.overlay);
+      baseliner.overlay = null;
+    }
+    baseliner.grid_height = value;
+    baseliner.toggle(true);
+  }
+
+  init = function() {
+    var overlay_it = document.createElement('a');
+    overlay_it.setAttribute('href', '');
+    overlay_it.style.color = '#EEE';
+    overlay_it.style.marginRight = '12px';
+    overlay_it.appendChild(baseliner.showText);
     
-    this.overlay_it.onclick = function(evt) {
+    overlay_it.onclick = function(evt) {
       if (!evt) var evt = window.event;
       baseliner.toggle();
 	    evt.cancelBubble = true;
@@ -326,11 +340,16 @@ var Baseliner = function(grid_height) {
 	      evt.preventDefault();
 	    }
     }
+    baseliner.overlay_it = overlay_it;
     
-    this.grid_size = document.createElement('input');
-    this.grid_size.setAttribute('size', '3');
-    this.grid_size.setAttribute('value', '' + this.grid_height);
-    this.grid_size.style.textAlign = 'center';
+    var grid_size = document.createElement('input');
+    grid_size.setAttribute('size', '3');
+    grid_size.setAttribute('value', '' + baseliner.grid_height);
+    grid_size.setAttribute('type', 'number');
+    grid_size.style.textAlign = 'center';
+    grid_size.style.border = '1px solid #CCC inset';
+    grid_size.style.padding = '3px';
+    baseliner.grid_size = grid_size;
     
     var action = document.createElement('div');
     action.id = 'overlay-it';
@@ -349,20 +368,25 @@ var Baseliner = function(grid_height) {
     action.style.color = '#EEE';
     action.style.zIndex = '9999';
     
-    action.appendChild(this.overlay_it);
-    action.appendChild(this.grid_size);
+    action.appendChild(overlay_it);
+    action.appendChild(grid_size);
     document.body.appendChild(action);
     
-    this.grid_size.onchange = function() {
-      if (baseliner.overlay) {
-        document.body.removeChild(baseliner.overlay);
-        baseliner.overlay = null;
-      }
-      baseliner.grid_height = this.value;
-      baseliner.toggle(true);
+    grid_size.onchange = function() {
+      baseliner.refresh(this.value);
+    }
+    var timer;
+    grid_size.onkeyup = function() {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(function() { baseliner.refresh(grid_size.value); }, 400);
     }
 
     document.body.appendChild(action);
+    window.onresize = function() {
+      baseliner.resize();
+    };
   }
+  
+  init();
 }
 
