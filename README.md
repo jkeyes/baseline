@@ -7,9 +7,6 @@
     }
     </script>
 
-<style>
-img { border: 2px solid #DDD; }
-</style>
 This will add the Baseliner widget to your page:
 
 ![Show Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_show.png)
