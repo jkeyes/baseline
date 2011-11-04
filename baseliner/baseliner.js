@@ -226,21 +226,52 @@
  * Baseliner.
  */
 
+/* From: http://www.javascripter.net/faq/browserw.htm */
+var windowDimensions = function() {
+  var winW = 630, winH = 460;
+  if (document.body && document.body.offsetWidth) {
+    winW = document.body.offsetWidth;
+    winH = document.body.offsetHeight;
+  }
+  if (document.compatMode=='CSS1Compat' &&
+    document.documentElement &&
+    document.documentElement.offsetWidth ) {
+      winW = document.documentElement.offsetWidth;
+      winH = document.documentElement.offsetHeight;
+  }
+  if (window.innerWidth && window.innerHeight) {
+    winW = window.innerWidth;
+    winH = window.innerHeight;
+  }
+
+  return [winW, winH];
+}
+
+/* From jQuery: dimensions.js */
+function getDimenson(elem, name) {
+    return Math.max(
+				elem.documentElement["client" + name],
+				elem.body["scroll" + name], elem.documentElement["scroll" + name],
+				elem.body["offset" + name], elem.documentElement["offset" + name]
+			);
+}
+
 var Baseliner = function(grid_height) {
   var baseliner = this;
   this.overlay_id = 'baseline-overlay'
   this.overlay = null;
   this.grid_height = grid_height ? grid_height : 10;
-  
+  this.showText = document.createTextNode("Show Baseline");
+  this.hideText = document.createTextNode("Hide Baseline");
+
   this.resize = function() {
     if (!this.overlay) return;
 
-    width = $(window).width();
-    height = $(document).height();
-    this.overlay.css({
-       'width': width,
-       'height': height
-    });
+    width = windowDimensions()[0]; //(window, "Width");
+    height = getDimenson(document, "Height");
+    
+    this.overlay.style.width = width + "px";
+    this.overlay.style.height = height + "px";
   }
   this.create = function() {
     if (!this.overlay) {
@@ -248,18 +279,14 @@ var Baseliner = function(grid_height) {
       overlay.color(0, 0, 0, 0);
       overlay.buffer[overlay.index(0, this.grid_height - 1)] = overlay.color(0xff, 0, 0, 64);
       base64_overlay ='data:image/png;base64,' + overlay.getBase64();
-      if ($('#' + this.overlay_id).length === 0) {
-        baseliner.overlay = $('<div id="' + this.overlay_id + '"></div>')
-        $('body').append(this.overlay);
-      }
-      this.overlay.css({
-         'background-image': 'url(' + base64_overlay + ')',
-         'display': 'block',
-         'position': 'absolute',
-         'top': 0,
-         'left': 0,
-         'z-index': 9998
-      });
+      this.overlay = document.createElement('div');
+      this.overlay.id = this.overlay_id;
+      document.body.appendChild(this.overlay);
+      this.overlay.style.backgroundImage = 'url(' + base64_overlay + ')';
+      this.overlay.style.position = 'absolute';
+      this.overlay.style.top = '0px';
+      this.overlay.style.left = '0px';
+      this.overlay.style.zIndex = '9998';
       this.resize()
     }
   }
@@ -267,66 +294,75 @@ var Baseliner = function(grid_height) {
     if (!this.overlay) { 
       this.create();
     }
-    if (forced || this.overlay_it.html() == "Show Baseline") {
-      this.overlay_it.html("Hide Baseline");
-      this.overlay.show();
+    if (forced || this.overlay.style.display != 'block') {
+      if (this.showText.parentNode) {
+        this.overlay_it.replaceChild(this.hideText, this.showText);
+      }
+      this.overlay.style.display = 'block';
     } else {
-      this.overlay_it.html("Show Baseline");
-      this.overlay.hide();
+      if (this.hideText.parentNode) {
+        this.overlay_it.replaceChild(this.showText, this.hideText);
+      }
+      this.overlay.style.display = 'none';
     }
   }
-  $(window).resize(function() {
+  window.onresize = function() {
     baseliner.resize();
-  });
+  };
   
-  if (!$('#overlay-it').length) {
-    this.overlay_it = $('<a href="">Show Baseline</a>');
-    this.overlay_it.click(function(evt) {
-      baseliner.toggle()
-      evt.preventDefault();
-    });
-    this.overlay_it.css({
-      'color': '#EEE',
-      'font-weight': 'bold',
-      'font-family': 'Arial, sans-serif',
-      'font-size': '12px',
-      'margin-right': '10px',
-    });
-    this.grid_size = $('<input size="3" value="' + this.grid_height + '"/>');
-    this.grid_size.css('text-align', 'center');
-    action = $('<div id="overlay-it"></div>');
-    action.css({
-      'display': 'block',
-      'width': 200,
-      'margin': '0 auto',
-      'left': '50%',
-      'margin-left': -100,
-      'position': 'fixed',
-      'bottom': -1,
-      'text-align': 'center',
-      'z-index': 9999,
-      'background-color': '#333',
-      'border': '1px solid #000',
-      'color': '#EEE',
-      'padding': '10px 0',
-      'font-weight': 'bold',
-      'text-decoration': 'none',
-      'font-family': 'Arial, sans-serif',
-      'font-size': '12px'
-    });
-    this.grid_size.change(function() {
+  if (!this.overlay_it) {
+    this.overlay_it = document.createElement('a');
+    this.overlay_it.setAttribute('href', '');
+    this.overlay_it.style.color = '#EEE';
+    this.overlay_it.style.marginRight = '12px';
+    this.overlay_it.appendChild(this.showText);
+    
+    this.overlay_it.onclick = function(evt) {
+      if (!evt) var evt = window.event;
+      baseliner.toggle();
+	    evt.cancelBubble = true;
+	    if (evt.stopPropagation) {
+	      evt.stopPropagation();
+	      evt.preventDefault();
+	    }
+    }
+    
+    this.grid_size = document.createElement('input');
+    this.grid_size.setAttribute('size', '3');
+    this.grid_size.setAttribute('value', '' + this.grid_height);
+    this.grid_size.style.textAlign = 'center';
+    
+    var action = document.createElement('div');
+    action.id = 'overlay-it';
+    action.style.display = 'block';
+    action.style.width = '200px';
+    action.style.position = 'fixed';
+    action.style.left = '50%';
+    action.style.bottom = '-1px';
+    action.style.margin = '0 0 0 -100px';
+    action.style.padding = '10px 0';
+    action.style.fontFamily = 'Arial, sans-serif';
+    action.style.fontSize = '12px';
+    action.style.fontWeight = 'bold';
+    action.style.textAlign = 'center';
+    action.style.backgroundColor = '#333';
+    action.style.color = '#EEE';
+    action.style.zIndex = '9999';
+    
+    action.appendChild(this.overlay_it);
+    action.appendChild(this.grid_size);
+    document.body.appendChild(action);
+    
+    this.grid_size.onchange = function() {
       if (baseliner.overlay) {
-        baseliner.overlay.remove();
+        document.body.removeChild(baseliner.overlay);
         baseliner.overlay = null;
       }
-      baseliner.grid_height = $(this).val();
+      baseliner.grid_height = this.value;
       baseliner.toggle(true);
-    });
+    }
 
-    action.append(this.overlay_it);
-    action.append(this.grid_size);
-    
-    $('body').append(action);
+    document.body.appendChild(action);
   }
 }
 
