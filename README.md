@@ -25,8 +25,8 @@ You can customize the size of the grid too:
 
 Two initialisation options are supported:
 
-* gridColor — an RBGA array (`[255, 0, 0, 255]` for red) or a color string ('red', 'blue', 'green' or 'grey'/'gray'). If this option is not set, it defaults to a highly transparent red.
-* gridHeight — the height of the baseline grid. If it is not set, it defaults to 10 pixels.
+* `gridColor` — an RBGA array (`[255, 0, 0, 255]` for red) or a color string (`red`, `blue`, `green` or `grey`/`gray`). If this option is not set, it defaults to a highly transparent red.
+* `gridHeight` — the height of the baseline grid. If it is not set, it defaults to 10 pixels.
 
 ## Some more examples
 
