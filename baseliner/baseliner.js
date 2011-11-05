@@ -222,21 +222,12 @@
 
 /*** End PNGlib ***/
 
-/* From: http://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically/4139190#4139190 */
-Object.defineProperty(Object.prototype, "extend", {
-    enumerable: false,
-    value: function(from) {
-        var props = Object.getOwnPropertyNames(from);
-        var dest = this;
-        props.forEach(function(name) {
-            if (name in dest) {
-                var destination = Object.getOwnPropertyDescriptor(from, name);
-                Object.defineProperty(dest, name, destination);
-            }
-        });
-        return this;
-    }
-});
+var merge = function(src, dest) {
+  for (prop in src) { 
+    if (prop in dest) { continue; }
+    dest[prop] = src[prop];
+  }
+}
 
 /* From: http://www.javascripter.net/faq/browserw.htm */
 var windowDimensions = function() {
@@ -285,7 +276,8 @@ var Baseliner = function(options) {
       options = { 'gridHeight': optint };
     }
   }
-  this.opts = defaults.extend(options);
+  merge(defaults, options);
+  this.opts = options;
   
   var baseliner = this;
   this.overlay_id = 'baseline-overlay'
@@ -381,6 +373,7 @@ var Baseliner = function(options) {
 	      evt.stopPropagation();
 	      evt.preventDefault();
 	    }
+	    return false;
     }
     baseliner.overlay_it = overlay_it;
     
@@ -389,7 +382,7 @@ var Baseliner = function(options) {
     grid_size.setAttribute('value', '' + baseliner.gridHeight);
     grid_size.setAttribute('type', 'number');
     grid_size.style.textAlign = 'center';
-    grid_size.style.border = '1px solid #CCC inset';
+    grid_size.style.border = '1px solid #CCC';
     grid_size.style.padding = '3px';
     baseliner.grid_size = grid_size;
     
