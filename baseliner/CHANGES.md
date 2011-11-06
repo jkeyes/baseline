@@ -1,5 +1,9 @@
 # CHANGES
 
+## 0.9.4 - 2011-11-05
+
+* Fixes for IE8 and IE9.
+
 ## 0.9.3 — 2011-11-04
 
 * Added gridColor and gridHeight configuration options
