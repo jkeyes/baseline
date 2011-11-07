@@ -1,5 +1,9 @@
 # CHANGES
 
+## 0.9.5 - 2011-11-07
+
+* Once loaded the grid can be toggled with the ESC key.
+
 ## 0.9.4 - 2011-11-05
 
 * Fixes for IE8 and IE9.
