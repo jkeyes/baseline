@@ -10,7 +10,7 @@ javascript:(function(){
     var _baseliner=document.createElement('script');
     _baseliner.id='baseliner-script';
     _baseliner.type='text/javascript';
-    _baseliner.src='http://files.keyes.ie/baseliner-latest.js';
+    _baseliner.src='http://files.keyes.ie/baseliner-latest.min.js';
     document.getElementsByTagName('body')[0].appendChild(_baseliner);
     var loadFunction = function(evt) {
       if (window.baseliner) {
