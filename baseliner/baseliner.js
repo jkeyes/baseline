@@ -2,7 +2,7 @@
  * A function to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 0.9.5
+ * @version 0.9.6
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
@@ -296,26 +296,26 @@ var Baseliner = function(options) {
     this.overlay.style.height = height + "px";
   }
   this.create = function() {
-    if (!this.overlay) {
-      overlay = new PNGlib(1, this.gridHeight, 256);
-      overlay.color(0, 0, 0, 0);
-      overlay.buffer[overlay.index(0, this.gridHeight - 1)] = overlay.color.apply(overlay, this.opts.gridColor);
-      base64_overlay ='data:image/png;base64,' + overlay.getBase64();
-      this.overlay = document.createElement('div');
-      this.overlay.id = this.overlay_id;
-      document.body.appendChild(this.overlay);
-      this.overlay.style.backgroundImage = 'url(' + base64_overlay + ')';
-      this.overlay.style.position = 'absolute';
-      this.overlay.style.top = '0px';
-      this.overlay.style.left = '0px';
-      this.overlay.style.zIndex = '9998';
-      this.resize()
+    var _already_overlaid = document.getElementById(this.overlay_id);
+    if (_already_overlaid) {
+      return;
     }
+    this.overlay = document.createElement('div');
+    this.overlay.id = this.overlay_id;
+    document.body.appendChild(this.overlay);
+    overlay = new PNGlib(1, this.gridHeight, 256);
+    overlay.color(0, 0, 0, 0);
+    overlay.buffer[overlay.index(0, this.gridHeight - 1)] = overlay.color.apply(overlay, this.opts.gridColor);
+    base64_overlay ='data:image/png;base64,' + overlay.getBase64();
+    this.overlay.style.background = 'url(' + base64_overlay + ') repeat';
+    this.overlay.style.position = 'absolute';
+    this.overlay.style.top = '0px';
+    this.overlay.style.left = '0px';
+    this.overlay.style.zIndex = '9998';
+    this.resize()
   }
   this.toggle = function(forced) {
-    if (!this.overlay) { 
-      this.create();
-    }
+    this.create();
     if (forced || this.overlay.style.display != 'block') {
       if (this.showText.parentNode) {
         this.overlay_it.replaceChild(this.hideText, this.showText);
@@ -378,9 +378,8 @@ var Baseliner = function(options) {
     baseliner.overlay_it = overlay_it;
     
     var grid_size = document.createElement('input');
-    grid_size.setAttribute('size', '3');
-    grid_size.setAttribute('value', '' + baseliner.gridHeight);
-    grid_size.setAttribute('type', 'number');
+    grid_size.size = 3;
+    grid_size.value = baseliner.gridHeight;
     grid_size.style.textAlign = 'center';
     grid_size.style.border = '1px solid #CCC';
     grid_size.style.padding = '3px';
