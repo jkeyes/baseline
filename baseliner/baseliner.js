@@ -2,7 +2,7 @@
  * A function to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 0.9.6
+ * @version 0.9.7
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
