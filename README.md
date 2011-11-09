@@ -2,7 +2,7 @@
 
 ## Bookmarklet
 
-Add this <a href="javascript:(function(){if(window.baseliner){baseliner.toggle();}else{var _baseliner=document.createElement('script');_baseliner.type='text/javascript';_baseliner.src='https://github.com/downloads/jkeyes/baseline/baseliner-latest.min.js';document.getElementsByTagName('head')[0].appendChild(_baseliner);var loadFunction=function(){baseliner=new Baseliner();baseliner.toggle();};_baseliner.onload=loadFunction;_baseliner.onreadystatechange=loadFunction;}})();">bookmarklet</a> to use Baseliner on any webpage.
+Add this <a href="javascript:(function(){var _grid_height=10;if(window.baseliner){baseliner.toggle();}else{var _already_loaded=document.getElementById('baseliner-script');if(_already_loaded){return;};var _baseliner=document.createElement('script');_baseliner.id='baseliner-script';_baseliner.type='text/javascript';_baseliner.src='http://files.keyes.ie/baseliner-latest.min.js';document.getElementsByTagName('body')[0].appendChild(_baseliner);var loadFunction=function(evt){if(window.baseliner){return;};baseliner=new Baseliner(_grid_height);baseliner.toggle();};_baseliner.onreadystatechange=loadFunction;_baseliner.onload=loadFunction;};})();">bookmarklet</a> to use Baseliner on any webpage.
 
 ## Super-short Example
     <script src="baseliner.js"></script>
@@ -14,15 +14,15 @@ Add this <a href="javascript:(function(){if(window.baseliner){baseliner.toggle()
 
 This will add the [Baseliner](https://github.com/jkeyes/baseline/blob/master/baseliner/baseliner.js) widget to your page:
 
-![Show Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_show.png)
+![Show Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/img/example_show.png)
 
 If you click on Show Baseline an 8px baseline grid overlay is displayed:
 
-![Hide Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_hide.png)
+![Hide Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/img/example_hide.png)
 
 You can customize the size of the grid too:
 
-![16px Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/example_16px.png)
+![16px Baseline](https://github.com/jkeyes/baseline/raw/master/baseliner/img/example_16px.png)
 
 ## Configuration Options
 
