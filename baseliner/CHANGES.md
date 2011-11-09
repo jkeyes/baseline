@@ -1,5 +1,9 @@
 # CHANGES
 
+## 0.9.7 — 2011-11-09 
+
+* Use jQuery window dimension code, prevent horizontal scrollbars appearing when not required
+
 ## 0.9.6 — 2011-11-08
 
 * Prevent multiple overlays in IE.
