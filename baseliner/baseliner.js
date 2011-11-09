@@ -229,34 +229,20 @@ var merge = function(src, dest) {
   }
 }
 
-/* From: http://www.javascripter.net/faq/browserw.htm */
-var windowDimensions = function() {
-  var winW = 630, winH = 460;
-  if (document.body && document.body.offsetWidth) {
-    winW = document.body.offsetWidth;
-    winH = document.body.offsetHeight;
-  }
-  if (document.compatMode=='CSS1Compat' &&
-    document.documentElement &&
-    document.documentElement.offsetWidth ) {
-      winW = document.documentElement.offsetWidth;
-      winH = document.documentElement.offsetHeight;
-  }
-  if (window.innerWidth && window.innerHeight) {
-    winW = window.innerWidth;
-    winH = window.innerHeight;
-  }
-
-  return [winW, winH];
-}
-
 /* From jQuery: dimensions.js */
-function getDimenson(elem, name) {
+function getDimension(elem, name) {
+  if (elem === window) {
+  	var docElemProp = elem.document.documentElement[ "client" + name ],
+  		body = elem.document.body;
+  	return elem.document.compatMode === "CSS1Compat" && docElemProp ||
+  		body && body[ "client" + name ] || docElemProp;    
+  } else {
     return Math.max(
 				elem.documentElement["client" + name],
 				elem.body["scroll" + name], elem.documentElement["scroll" + name],
 				elem.body["offset" + name], elem.documentElement["offset" + name]
 			);
+	}
 }
 
 /**
@@ -289,17 +275,15 @@ var Baseliner = function(options) {
   this.resize = function() {
     if (!this.overlay) return;
 
-    width = windowDimensions()[0]; //(window, "Width");
-    height = getDimenson(document, "Height");
-    
+    height = getDimension(document, "Height");
+    width = getDimension(window, "Width");
     this.overlay.style.width = width + "px";
     this.overlay.style.height = height + "px";
   }
   this.create = function() {
     var _already_overlaid = document.getElementById(this.overlay_id);
-    if (_already_overlaid) {
-      return;
-    }
+    if (_already_overlaid) return;
+
     this.overlay = document.createElement('div');
     this.overlay.id = this.overlay_id;
     document.body.appendChild(this.overlay);
