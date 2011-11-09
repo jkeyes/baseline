@@ -1,5 +1,10 @@
 # CHANGES
 
+## 0.9.6 — 2011-11-08
+
+* Prevent multiple overlays in IE.
+* Use a textfield not a number field for the grid size.
+
 ## 0.9.5 - 2011-11-07
 
 * Once loaded the grid can be toggled with the ESC key.
