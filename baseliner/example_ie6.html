@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Baseliner</title>
+        <style>
+        body {
+            font-size: 16px;
+            line-height: 24px;
+            padding: 16px;
+            margin: 0;
+            width: 240px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            line-height: 48px;
+        }
+        p {
+            margin: 0;
+        }
+        </style>
+<!--[if lt IE 8]>
+<script>
+var IE7 = true;
+</script>
+<![endif]-->
+        <script src="baseliner.js"></script>
+        <script>
+        var IE7_PNG_SUFFIX = "*.png";
+        window.onload = function() {
+            baseliner = new Baseliner({'gridColor': 'red'});
+        }
+        </script>
+    </head>
+    <body>
+        <h1>Baseliner</h1>
+        <p>
+            Baseliner is a JavaScript tool to overlay a dynamically created
+            baseline grid on a web page.
+        </p>
+    </body>
+</html>
