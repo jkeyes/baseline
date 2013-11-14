@@ -40,6 +40,7 @@ var Baseliner = function(options) {
   var defaults = {
     'gridColor': [196, 196, 196],
     'gridHeight': 10,
+    'gridOffset': 0,
     'gridOpacity': 100,
     'gridSpace': 1
   }
@@ -77,7 +78,7 @@ var Baseliner = function(options) {
     document.body.appendChild(this.overlay);
     this.overlay.style.background =  'url(http://baselinebg.keyes.ie/?h=' + this.opts.gridHeight + '&r=' + this.opts.gridColor[0] + '&g=' + this.opts.gridColor[1] + '&b=' + this.opts.gridColor[2] + '&s=' + this.opts.gridSpace + ') repeat';
     this.overlay.style.position = 'absolute';
-    this.overlay.style.top = '0px';
+    this.overlay.style.top = this.opts.gridOffset + 'px';
     this.overlay.style.left = '0px';
     this.overlay.style.zIndex = 9998;
     this.overlay.style.opacity = this.opts.gridOpacity / 100;
@@ -120,6 +121,23 @@ var Baseliner = function(options) {
     baseliner.opts.gridHeight = value;
     baseliner.toggle(true);
   }
+  this.refreshOffset = function(value) {
+    var value = parseInt(value);
+    if (value == 0 || isNaN(value)) {
+      this.value = baseliner.opts.gridOffset;
+      baseliner.grid_offset.style.backgroundColor = "red";
+      baseliner.grid_offset.style.color = "white";
+      return;
+    }
+    baseliner.grid_offset.style.backgroundColor = "white";
+    baseliner.grid_offset.style.color = "black";
+    if (baseliner.overlay) {
+      document.body.removeChild(baseliner.overlay);
+      baseliner.overlay = null;
+    }
+    baseliner.opts.gridOffset = value;
+    baseliner.toggle(true);
+  }
 
   init = function() {
     switch(baseliner.opts.gridColor) {
@@ -150,6 +168,10 @@ var Baseliner = function(options) {
 	    return false;
     }
     baseliner.overlay_it = overlay_it;
+
+    var grid_size_label = document.createElement('label');
+    grid_size_label.for = 'baseliner_grid_size';
+    grid_size_label.innerText = 'Grid Size: ';
     
     var grid_size = document.createElement('input');
     grid_size.size = 3;
@@ -157,7 +179,20 @@ var Baseliner = function(options) {
     grid_size.style.textAlign = 'center';
     grid_size.style.border = '1px solid #CCC';
     grid_size.style.padding = '1px';
+    grid_size.style.marginRight = '5px';
     baseliner.grid_size = grid_size;
+
+    var grid_offset_label = document.createElement('label');
+    grid_offset_label.for = 'baseliner_grid_size';
+    grid_offset_label.innerText = 'Grid Offset: ';
+
+    var grid_offset = document.createElement('input');
+    grid_offset.size = 3;
+    grid_offset.value = baseliner.opts.gridOffset;
+    grid_offset.style.textAlign = 'center';
+    grid_offset.style.border = '1px solid #CCC';
+    grid_offset.style.padding = '1px';
+    baseliner.grid_offset = grid_offset;
 
     var parent = document.createElement('div');
     parent.style.position = 'relative';
@@ -179,7 +214,10 @@ var Baseliner = function(options) {
     action.style.color = '#EEE';
     
     action.appendChild(overlay_it);
+    action.appendChild(grid_size_label);
     action.appendChild(grid_size);
+    action.appendChild(grid_offset_label);
+    action.appendChild(grid_offset);
     parent.appendChild(action);
     document.body.appendChild(parent);
     
@@ -193,6 +231,15 @@ var Baseliner = function(options) {
     };
     
     grid_size.onchange = grid_size.onkeyup = _heightChanged;
+
+    var _offsetChanged = function() {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(function() {
+        baseliner.refreshOffset(grid_offset.value);
+      }, 400);
+    };
+
+    grid_offset.onchange = grid_offset.onkeyup = _offsetChanged;
 
     window.onresize = function() {
       baseliner.resize();
