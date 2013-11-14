@@ -26,10 +26,11 @@ You can customize the size of the grid too:
 
 ## Configuration Options
 
-Two configuration options are supported:
+Three configuration options are supported:
 
 * `gridColor` — an RBGA array (`[255, 0, 0, 255]` for red) or a color string (`red`, `blue`, `green` or `grey`/`gray`). If this option is not set, it defaults to a highly transparent red.
 * `gridHeight` — the height of the baseline grid. If it is not set, it defaults to 10 pixels.
+* `gridOffset` — the number of pixels to offset the grid vertically. If it is not set, it defaults to 0 pixels.
 
 ## Some more examples
 
@@ -37,4 +38,5 @@ Two configuration options are supported:
     baseliner = new Baseliner({'gridColor': [0, 0, 0, 255], 'gridHeight': 20 });
     // a red grid, 10 pixels high
     baseliner = new Baseliner({'gridColor': 'red'});
-    // a very faint grey grid, 8 pixels high
+    // a black grid, 24 pixels high, offset by 10 pixels
+    baseliner = new Baseliner({'gridHeight': 24, 'gridOffset': 10});
