@@ -1,5 +1,10 @@
 # CHANGES
 
+
+## 0.9.9 – 2013-11-17
+
+* Added: gridOffset configuration option (thanks [Michael Herold](https://github.com/michaelherold))
+
 ## 0.9.8 — 2011-11-10
 
 * Removed: PNGlib dependency
