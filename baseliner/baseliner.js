@@ -106,7 +106,7 @@ var Baseliner = function(options) {
   }
   this.refresh = function(value) {
     var value = parseInt(value);
-    if (value == 0 || isNaN(value)) {
+    if (value < 1 || isNaN(value)) {
       this.value = baseliner.opts.gridHeight;
       baseliner.grid_size.style.backgroundColor = "red";
       baseliner.grid_size.style.color = "white";
@@ -123,7 +123,7 @@ var Baseliner = function(options) {
   }
   this.refreshOffset = function(value) {
     var value = parseInt(value);
-    if (value == 0 || isNaN(value)) {
+    if (value < 0 || isNaN(value)) {
       this.value = baseliner.opts.gridOffset;
       baseliner.grid_offset.style.backgroundColor = "red";
       baseliner.grid_offset.style.color = "white";

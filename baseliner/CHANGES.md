@@ -4,6 +4,7 @@
 ## 0.9.10 – 2014-01-08
 
 * Renamed parameter from `event` to `evt` in the keychange listener.
+* Allow a 0 gridOffset.
 
 ## 0.9.9 – 2013-11-17
 
