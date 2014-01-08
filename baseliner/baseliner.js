@@ -2,7 +2,7 @@
  * A function to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 0.9.9
+ * @version 0.9.10
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
@@ -244,7 +244,7 @@ var Baseliner = function(options) {
     window.onresize = function() {
       baseliner.resize();
     };
-    document.onkeyup = function(event) {
+    document.onkeyup = function(evt) {
         if (!evt) var evt = window.event;
         var keyCode = evt.keyCode || evt.which;
 

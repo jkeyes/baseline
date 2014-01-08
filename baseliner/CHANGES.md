@@ -1,6 +1,10 @@
 # CHANGES
 
 
+## 0.9.10 – 2014-01-08
+
+* Renamed parameter from `event` to `evt` in the keychange listener.
+
 ## 0.9.9 – 2013-11-17
 
 * Added: gridOffset configuration option (thanks [Michael Herold](https://github.com/michaelherold))
