@@ -2,7 +2,7 @@
  * A function to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 0.9.10
+ * @version 0.9.11
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
@@ -175,6 +175,7 @@ var Baseliner = function(options) {
     
     var grid_size = document.createElement('input');
     grid_size.size = 3;
+    grid_size.type = 'number';
     grid_size.value = baseliner.opts.gridHeight;
     grid_size.style.textAlign = 'center';
     grid_size.style.border = '1px solid #CCC';
@@ -188,6 +189,7 @@ var Baseliner = function(options) {
 
     var grid_offset = document.createElement('input');
     grid_offset.size = 3;
+    grid_offset.type = 'number';
     grid_offset.value = baseliner.opts.gridOffset;
     grid_offset.style.textAlign = 'center';
     grid_offset.style.border = '1px solid #CCC';

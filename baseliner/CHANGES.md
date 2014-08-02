@@ -1,5 +1,8 @@
 # CHANGES
 
+## 0.9.11 – 2014-08-02
+
+* make input types 'number'
 
 ## 0.9.10 – 2014-01-08
 
