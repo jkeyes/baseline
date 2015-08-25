@@ -173,10 +173,11 @@ var Baseliner = function(options) {
     baseliner.overlay_it = overlay_it;
 
     var grid_size_label = document.createElement('label');
-    grid_size_label.for = 'baseliner_grid_size';
+    grid_size_label.setAttribute('for', 'baseliner-grid-size');
     grid_size_label.innerText = 'Grid Size: ';
     
     var grid_size = document.createElement('input');
+    grid_size.setAttribute('name', 'baseliner-grid-size');
     grid_size.size = 3;
     grid_size.type = 'number';
     grid_size.value = baseliner.opts.gridHeight;
@@ -187,10 +188,11 @@ var Baseliner = function(options) {
     baseliner.grid_size = grid_size;
 
     var grid_offset_label = document.createElement('label');
-    grid_offset_label.for = 'baseliner_grid_size';
+    grid_offset_label.setAttribute('for', 'baseliner-grid-size');
     grid_offset_label.innerText = 'Grid Offset: ';
 
     var grid_offset = document.createElement('input');
+    grid_offset.setAttribute('name', 'baseliner-grid-size');
     grid_offset.size = 3;
     grid_offset.type = 'number';
     grid_offset.value = baseliner.opts.gridOffset;
