@@ -2,7 +2,7 @@
  * An object to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 1.0
+ * @version 1.0.beta
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
@@ -20,17 +20,17 @@ var merge = function(src, dest) {
 /* From jQuery: dimensions.js */
 function getDimension(elem, name) {
   if (elem === window) {
-  	var docElemProp = elem.document.documentElement[ "client" + name ],
-  		body = elem.document.body;
-  	return elem.document.compatMode === "CSS1Compat" && docElemProp ||
-  		body && body[ "client" + name ] || docElemProp;    
+    var docElemProp = elem.document.documentElement[ "client" + name ],
+      body = elem.document.body;
+    return elem.document.compatMode === "CSS1Compat" && docElemProp ||
+      body && body[ "client" + name ] || docElemProp;    
   } else {
     return Math.max(
-				elem.documentElement["client" + name],
-				elem.body["scroll" + name], elem.documentElement["scroll" + name],
-				elem.body["offset" + name], elem.documentElement["offset" + name]
-			);
-	}
+        elem.documentElement["client" + name],
+        elem.body["scroll" + name], elem.documentElement["scroll" + name],
+        elem.body["offset" + name], elem.documentElement["offset" + name]
+      );
+  }
 }
 
 /**
@@ -163,12 +163,12 @@ var Baseliner = function(options) {
     overlay_it.onclick = function(evt) {
       if (!evt) var evt = window.event;
       baseliner.toggle();
-	    evt.cancelBubble = true;
-	    if (evt.stopPropagation) {
-	      evt.stopPropagation();
-	      evt.preventDefault();
-	    }
-	    return false;
+      evt.cancelBubble = true;
+      if (evt.stopPropagation) {
+        evt.stopPropagation();
+        evt.preventDefault();
+      }
+      return false;
     }
     baseliner.overlay_it = overlay_it;
 
