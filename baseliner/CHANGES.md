@@ -1,5 +1,10 @@
 # CHANGES
 
+
+## 1.0.beta – 2015-08-25
+
+* Changed: the overlay is now generated as an SVG, rather than having to maintain the baselinebg.keyes.ie.
+
 ## 0.9.11 – 2014-08-02
 
 * make input types 'number'
