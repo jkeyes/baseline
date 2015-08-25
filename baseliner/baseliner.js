@@ -1,8 +1,8 @@
 /**
- * A function to overlay a dynamically created baseline grid
+ * An object to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 0.9.11
+ * @version 1.0
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
@@ -76,7 +76,8 @@ var Baseliner = function(options) {
     this.overlay = document.createElement('div');
     this.overlay.id = this.overlay_id;
     document.body.appendChild(this.overlay);
-    this.overlay.style.background =  'url(http://baselinebg.keyes.ie/?h=' + this.opts.gridHeight + '&r=' + this.opts.gridColor[0] + '&g=' + this.opts.gridColor[1] + '&b=' + this.opts.gridColor[2] + '&s=' + this.opts.gridSpace + ') repeat';
+    var svgURL = "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" + this.opts.gridSpace + "' height='" + this.opts.gridHeight + "'><rect style='fill: " + this.opts.gridColor + ";'  width='1' height='0.25px' x='0' y='" + (this.opts.gridHeight - 1) + "'/></svg>\")";
+    this.overlay.style.backgroundImage = svgURL;
     this.overlay.style.position = 'absolute';
     this.overlay.style.top = this.opts.gridOffset + 'px';
     this.overlay.style.left = '0px';
@@ -150,6 +151,8 @@ var Baseliner = function(options) {
       case 'black':
         baseliner.opts.gridColor = [0, 0, 0]; break;
     }
+    // convert the array to rgb
+    baseliner.opts.gridColor = "rgb(" + baseliner.opts.gridColor[0] + "," + baseliner.opts.gridColor[1] + "," + baseliner.opts.gridColor[2] + ")";
 
     var overlay_it = document.createElement('a');
     overlay_it.setAttribute('href', '');
