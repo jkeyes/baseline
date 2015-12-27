@@ -82,6 +82,7 @@ var Baseliner = function(options) {
     this.overlay.style.top = this.opts.gridOffset + 'px';
     this.overlay.style.left = '0px';
     this.overlay.style.zIndex = 9998;
+    this.overlay.style.pointerEvents = 'none';
     this.overlay.style.opacity = this.opts.gridOpacity / 100;
     this.resize()
   }
