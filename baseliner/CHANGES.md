@@ -1,5 +1,9 @@
 # CHANGES
 
+## 1.0 – 2015-12-28
+
+* Fixed: added `pointerEvens: none` to CSS for the overlay.
+
 
 ## 1.0.beta – 2015-08-25
 

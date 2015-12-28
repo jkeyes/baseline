@@ -2,7 +2,7 @@
  * An object to overlay a dynamically created baseline grid
  * on a webpage.
  *
- * @version 1.0.beta
+ * @version 1.0
  * @author John Keyes <john@keyes.ie>
  * @copyright Copyright (c) 2011, John Keyes
  * @link https://github.com/jkeyes/baseline
