@@ -2,7 +2,7 @@
 
 ## 1.0 – 2015-12-28
 
-* Fixed: added `pointerEvens: none` to CSS for the overlay.
+* Fixed: added `pointerEvents: none` to CSS for the overlay (thanks [Victor Hesselbom](https://github.com/hesselbom))
 
 
 ## 1.0.beta – 2015-08-25
